@@ -1,0 +1,45 @@
+{{/*
+  면책 문구 — 본문 바로 뒤에 자동으로 붙는다.
+
+  ⚠️ 이 파일을 지우거나 조건을 느슨하게 만들지 말 것.
+  사람의 기억에 의존하는 규칙은 언젠가 깨지지만, 템플릿에 박아 둔 규칙은 깨지지 않는다.
+  개별 글의 front matter로는 끌 수 없게 되어 있다. 그게 의도다.
+
+  - 섹션 글에만 붙는다 (소개·개인정보처리방침·연락처 같은 루트 페이지는 제외)
+  - 섹션별로 문구가 갈리고, 새 섹션은 공통 문구를 받는다
+  - 기준일은 lastmod(없으면 date)에서 자동으로 뽑는다 — 사람이 깜빡해도 붙는다
+  - 제휴 링크가 있는 글은 front matter에 affiliate = true 를 넣으면 고지가 추가된다
+*/}}
+
+{{- if .Section }}
+{{- $ref := .Lastmod | default .Date }}
+<aside class="post-disclaimer" role="note">
+  <p class="post-disclaimer__base">
+    {{- if $ref }}
+    이 글은 <strong>{{ $ref.Format "2006년 1월" }} 기준</strong>으로 확인한 내용입니다.
+    {{- end }}
+
+    {{- if eq .Section "parenting-benefits" }}
+    지원 제도는 수시로 바뀌고 지자체마다 다르므로, <strong>신청 전 관할 주민센터나 공식 창구에서 최종 확인</strong>하시기 바랍니다.
+    이 글은 정보 제공을 목적으로 하며, 개별 가정의 수급 자격을 판정하지 않습니다.
+    {{- else if eq .Section "ai-income" }}
+    도구의 가격·기능·정책은 자주 바뀌므로, <strong>결제 전 공식 페이지에서 확인</strong>하시기 바랍니다.
+    이 글은 정보 제공을 목적으로 하며, 특정 상품의 구매나 투자를 권유하지 않습니다.
+    {{- else }}
+    내용이 바뀌었을 수 있으므로, 중요한 결정을 앞두고 있다면 <strong>공식 출처에서 최종 확인</strong>하시기 바랍니다.
+    이 글은 정보 제공을 목적으로 합니다.
+    {{- end }}
+  </p>
+
+  {{- if .Param "affiliate" }}
+  <p class="post-disclaimer__affiliate">
+    이 글에는 제휴 링크가 포함되어 있으며, 링크를 통해 구매가 이루어지면 일정액의 수수료를 받을 수 있습니다.
+    <strong>수수료는 글의 내용에 영향을 주지 않습니다.</strong>
+  </p>
+  {{- end }}
+
+  <p class="post-disclaimer__fix">
+    잘못된 내용을 발견하셨다면 <a href="{{ "contact/" | relURL }}">연락처</a>로 알려 주십시오. 확인 후 고치겠습니다.
+  </p>
+</aside>
+{{- end }}

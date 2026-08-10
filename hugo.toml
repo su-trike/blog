@@ -1,0 +1,85 @@
+baseURL = 'https://blog.onioniworks.com/'
+locale = 'ko-KR'
+defaultContentLanguage = 'ko'
+
+# ⚠️ 확정 필요 — 사장님 확인 후 교체
+title = '오니오니웍스'
+
+theme = 'PaperMod'
+
+enableRobotsTXT = true
+enableInlineShortcodes = true
+enableEmoji = true
+
+# 요약문 길이 (한국어 기준)
+summaryLength = 40
+
+[pagination]
+  pagerSize = 12
+
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+[markup]
+  [markup.goldmark.renderer]
+    # 본문 안 HTML 허용 — 광고 단위·요약 박스 삽입에 필요
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[params]
+  env = 'production'
+
+  # ⚠️ 확정 필요 — 사장님 확인 후 교체
+  description = '알아두면 돈이 되는 제도와 도구를, 출처와 기준일을 밝혀 정리합니다.'
+  author = '오니오니웍스'
+
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+  ShowRssButtonInSectionTermList = true
+  comments = false
+
+  # 애드센스 게시자 ID — 승인 후 'ca-pub-XXXXXXXXXXXXXXXX' 형태로 채운다.
+  # 책 04장: 하드코딩 금지, 반드시 이 설정값을 템플릿에서 참조한다.
+  adsenseClient = ''
+
+  # 검색엔진 소유 확인 메타태그 — 서치콘솔·서치어드바이저 등록 시 채운다.
+  googleSiteVerification = ''
+  naverSiteVerification = ''
+
+  # GA4 측정 ID — 연결 시 'G-XXXXXXXXXX' 형태로 채운다.
+  googleAnalytics = ''
+
+  [params.homeInfoParams]
+    Title = '오니오니웍스'
+    Content = '제도와 도구를 직접 확인하고, 출처와 기준일을 밝혀 정리합니다.'
+
+  [params.assets]
+    disableHLJS = true
+    # favicon은 이미지 파일을 static/에 넣은 뒤 지정한다. 없는 경로를 적으면 404가 난다.
+
+# 메뉴는 이 파일에 두지 않는다.
+# 각 섹션의 _index.md와 개별 페이지 front matter에 직접 적는다.
+# 주제(섹션)를 계속 늘려갈 예정이라, 폴더만 추가하면 메뉴가 따라 붙는 쪽이 안전하다.
+#
+#   weight 규칙 — 주제 섹션 10, 20, 30 …  /  신뢰 페이지 90(소개) 91(개인정보) 92(연락처)
+#
+# 자세한 것은 CONTRIBUTING.md 참조.
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+[sitemap]
+  changefreq = 'weekly'
+  priority = 0.5
+  filename = 'sitemap.xml'

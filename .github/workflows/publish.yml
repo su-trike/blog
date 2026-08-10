@@ -1,0 +1,145 @@
+name: Build and Deploy
+
+# 이 워크플로는 '내보내는 일'만 한다. '글을 만드는 일'은 별도 워크플로로 분리한다.
+# 뭉쳐 두면 어디서 탈이 났는지 모른다. 갈라 두면 "빌드는 멀쩡한데 생성만 실패했구나"를 단번에 안다.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - '.gitignore'
+  # 예약 발행 글(date가 미래인 글)이 그날 자동으로 뜨게 하려면 매일 한 번은 빌드해야 한다.
+  # ⚠️ cron은 UTC다. 한국 시간에서 9시간을 뺀다.
+  #    아래 22:17 UTC = 한국 시간 다음 날 07:17.
+  #    정각을 피한 것은 의도다 — 매일 정확히 0시 0분은 기계의 흔적이다.
+  schedule:
+    - cron: '17 22 * * *'
+  # 테스트용 수동 실행 버튼. 반드시 둔다.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치지 않게 한다. 진행 중인 배포는 취소하지 않는다(중간에 끊으면 사이트가 깨진다).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # ⚠️ 'latest'로 두지 않는다. 외부 부품은 우리 허락 없이 버전을 올린다.
+  #    잠든 사이 공구가 바뀌어 아침에 손에 안 맞는 상황을 막는다.
+  #    월 1회 점검 때 올릴지 확인한다. 로컬 개발 환경과 같은 번호를 유지할 것.
+  HUGO_VERSION: '0.164.0'
+
+jobs:
+  build:
+    name: 빌드
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+        with:
+          # 테마가 submodule이라 이게 없으면 빌드가 통째로 깨진다.
+          submodules: recursive
+          # .Lastmod를 git 커밋 시각에서 뽑을 수 있게 전체 이력을 가져온다.
+          fetch-depth: 0
+
+      - name: Hugo 설치
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          # PaperMod는 SCSS를 쓰므로 extended가 필요하다.
+          extended: true
+
+      - name: Pages 설정
+        uses: actions/configure-pages@v5
+
+      - name: Hugo 빌드
+        env:
+          HUGO_ENVIRONMENT: production
+        # --minify: 산출물 압축
+        # --gc: 쓰지 않는 캐시 정리
+        # baseURL은 hugo.toml에 박힌 값을 그대로 쓴다. 여기서 덮어쓰지 않는다.
+        run: hugo --minify --gc
+
+      - name: 발행 결과 점검
+        # 빌드가 '성공'해도 내용이 비어 있으면 사고다. 배포 전에 여기서 잡는다.
+        run: |
+          test -f public/index.html   || { echo "::error::index.html이 없습니다"; exit 1; }
+          test -f public/sitemap.xml  || { echo "::error::sitemap.xml이 없습니다"; exit 1; }
+          test -f public/CNAME        || { echo "::error::CNAME이 없습니다 — 커스텀 도메인이 풀립니다"; exit 1; }
+          grep -q 'blog.onioniworks.com' public/sitemap.xml \
+            || { echo "::error::sitemap의 주소가 baseURL과 다릅니다"; exit 1; }
+          echo "발행 페이지 수: $(grep -c '<loc>' public/sitemap.xml)"
+
+      - name: 산출물 업로드
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    name: 배포
+    # ⭐ fail-safe: 빌드가 실패하면 배포 단계는 아예 실행되지 않는다.
+    #    새 걸 못 올리는 것은 불편이지만, 있던 걸 깨뜨리는 것은 사고다.
+    #    어제 배포된 멀쩡한 사이트가 그대로 남는다.
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: GitHub Pages에 배포
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify-failure:
+    name: 실패 알림
+    needs: [build, deploy]
+    # ⭐ 가장 무서운 적은 '소리 없는 실패'다. 알림 없는 자동화는 고장 나도 모르는 화재경보기와 같다.
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: 실패 이슈 열기 (이미 열려 있으면 댓글)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="🔴 배포 워크플로 실패"
+          BODY=$(cat <<EOF
+          \`Build and Deploy\` 워크플로가 실패했습니다.
+
+          | 항목 | 값 |
+          |---|---|
+          | 발생 시각(UTC) | $(date -u '+%Y-%m-%d %H:%M') |
+          | 실행 방식 | \`${{ github.event_name }}\` |
+          | 커밋 | \`${{ github.sha }}\` |
+          | 로그 | $RUN_URL |
+
+          ### 어떻게 고치나
+
+          1. 위 로그 링크를 열고 빨간 X가 뜬 단계를 펼칩니다.
+          2. 에러 메시지를 **통째로 복사**합니다. 무슨 뜻인지 몰라도 됩니다.
+          3. 클로드에게 붙여넣으며 맥락 한 줄을 덧붙입니다.
+             예) "매일 빌드·배포하는 워크플로인데 어제까지 멀쩡하다가 오늘 빌드 단계에서 처음 실패했다"
+
+          어설프게 "발행이 안 돼요"라고 묻는 것보다 로그를 그대로 보여주는 편이 훨씬 빠릅니다.
+
+          > 사이트 자체는 마지막 정상 배포 상태로 살아 있습니다. 급하지 않습니다.
+          EOF
+          )
+          # 검색 API 대신 목록을 받아 제목을 정확히 대조한다.
+          # 이모지·한글이 섞인 제목은 검색 색인이 늦거나 어긋나는 일이 있다.
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
+            --json number,title --jq "[.[] | select(.title == \"$TITLE\")] | .[0].number // empty")
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$BODY"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY"
+          fi

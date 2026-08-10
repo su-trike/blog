@@ -1,0 +1,41 @@
+/* 면책 문구 박스 — layouts/_partials/extend_post_content.html 에서 사용 */
+
+.post-disclaimer {
+    margin: 40px 0 0;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--secondary);
+    border-radius: var(--radius);
+    background: var(--code-bg);
+    font-size: 15px;
+    line-height: 1.7;
+    /* 면책은 읽히라고 두는 문구다. --secondary는 대비가 4:1로 낮아 본문색을 쓴다. */
+    color: var(--content);
+}
+
+.post-disclaimer p {
+    margin: 0;
+}
+
+.post-disclaimer p + p {
+    margin-top: 10px;
+}
+
+.post-disclaimer strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.post-disclaimer__affiliate {
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+}
+
+.post-disclaimer__fix {
+    font-size: 14px;
+    color: var(--tertiary);
+}
+
+.post-disclaimer a {
+    box-shadow: 0 1px 0 var(--secondary);
+}

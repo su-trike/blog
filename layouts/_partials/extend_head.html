@@ -1,0 +1,30 @@
+{{/*
+  head 확장 — 광고·분석·소유확인 코드는 전부 여기 한곳에만 둔다.
+
+  ⚠️ 책 04장: "자동화의 사고는 대개 거창한 위반이 아니라 무심코 친 코드 한 줄에서 시작된다."
+  광고 코드를 다른 템플릿에 흩어 놓으면 스니펫 중복·ID 오기가 난다.
+  ID는 전부 hugo.toml의 [params]에서 가져오며, 이 파일에 값을 직접 적지 않는다.
+  값이 비어 있으면 아무것도 출력하지 않으므로, 미설정 상태로 배포해도 안전하다.
+*/}}
+
+{{- with site.Params.googleSiteVerification }}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end }}
+
+{{- with site.Params.naverSiteVerification }}
+<meta name="naver-site-verification" content="{{ . }}">
+{{- end }}
+
+{{- if and (eq hugo.Environment "production") site.Params.adsenseClient }}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.Params.adsenseClient }}" crossorigin="anonymous"></script>
+{{- end }}
+
+{{- if and (eq hugo.Environment "production") site.Params.googleAnalytics }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.Params.googleAnalytics }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.Params.googleAnalytics }}');
+</script>
+{{- end }}
