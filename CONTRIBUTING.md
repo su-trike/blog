@@ -123,6 +123,24 @@ GitHub Pages 배포
 
 외부 부품은 우리 허락 없이 버전을 올린다. 잠든 사이 공구가 새 모델로 바뀌어 아침에 손에 안 맞는 상황을 막으려고 `.github/workflows/publish.yml`의 `HUGO_VERSION`에 번호를 박아 두었다. **로컬 개발 환경과 같은 번호를 유지한다.** 월 1회 점검 때 올릴지 확인한다.
 
+**지금 실제로 그럴 위험이 있다.** 빌드할 때마다 아래 경고가 뜬다.
+
+```
+.Language.LanguageDirection was deprecated in Hugo v0.158.0 and will be removed
+.Language.LanguageCode was deprecated in Hugo v0.158.0 and will be removed
+```
+
+우리 설정이 아니라 **PaperMod 테마 안**에서 나는 경고다. 우리가 고칠 수 없다.
+Hugo가 이 기능을 실제로 제거하면 테마가 깨지고 빌드가 실패한다.
+
+- 지금은 Hugo 0.164.0에 고정돼 있어 안전하다
+- **Hugo 버전을 올리기 전에 반드시 테마도 함께 최신으로 올리고 로컬에서 빌드해 본다**
+- 순서를 지킨다: 테마 업데이트 → 로컬 빌드 성공 확인 → 그다음 `HUGO_VERSION` 상향
+
+```bash
+git submodule update --remote themes/PaperMod && hugo --buildDrafts
+```
+
 ---
 
 ## 8. 월 1회 점검

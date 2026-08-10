@@ -82,7 +82,7 @@ summaryLength = 40
 [[cascade]]
   [cascade.build]
     publishResources = false
-  [cascade._target]
+  [cascade.target]
     path = '/**'
 
 [outputs]
