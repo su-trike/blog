@@ -1,0 +1,64 @@
+{{/*
+  이미지 렌더 훅 — PaperMod 기본 훅을 덮어쓴다.
+
+  기본 훅이 하는 일(페이지 리소스 해석·lazy 로딩)은 그대로 두고 셋을 더한다.
+
+  1. 리사이즈·압축 — 원본이 아무리 커도 발행본은 최대 1200px webp로 나간다.
+     책 03장: "독자의 눈은 100KB와 2MB 이미지를 거의 구분 못 하지만,
+     로딩 속도는 스무 배 차이가 난다."
+     원본 파일은 손대지 않는다. 네이버 등 다른 곳에는 고품질 원본을 그대로 쓴다.
+
+  2. width·height 속성 — 브라우저가 자리를 미리 잡아 화면이 덜컹거리지 않는다.
+
+  3. 캡션 — 마크다운의 title 자리(![alt](src "여기"))를 figcaption으로 뽑는다.
+     책 03장: 캡션은 "글에서 가장 읽힐 확률이 높은 한 줄"이다.
+     사람 눈은 글자 벽보다 그림에 먼저 가고, 그림을 본 다음 바로 아래 한 줄을 읽는다.
+
+  SVG·GIF는 변환하지 않는다. 벡터를 래스터로 바꾸거나 움직임을 죽이면 손해다.
+*/}}
+
+{{- $u := urls.Parse .Destination -}}
+{{- $src := $u.String -}}
+{{- $img := "" -}}
+
+{{- if not $u.IsAbs -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path -}}
+  {{- with or (.PageInner.Resources.Get $path) (resources.Get $path) -}}
+    {{- $img = . -}}
+    {{- $ext := lower (path.Ext $path) -}}
+
+    {{/* 래스터 이미지만 손댄다 */}}
+    {{- if in (slice ".png" ".jpg" ".jpeg") $ext -}}
+      {{- if gt .Width 1200 -}}
+        {{- $img = .Resize "1200x webp q85" -}}
+      {{- else -}}
+        {{- $img = .Process "webp q85" -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- $src = $img.RelPermalink -}}
+    {{- with $u.RawQuery }}{{ $src = printf "%s?%s" $src . }}{{ end -}}
+    {{- with $u.Fragment }}{{ $src = printf "%s#%s" $src . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $attrs := dict "src" $src "alt" .Text "loading" "lazy" "decoding" "async" -}}
+{{- with $img -}}
+  {{- if and .Width .Height -}}
+    {{- $attrs = merge $attrs (dict "width" .Width "height" .Height) -}}
+  {{- end -}}
+{{- end -}}
+{{- $attrs = merge .Attributes $attrs -}}
+
+{{- $caption := .Title | transform.HTMLEscape -}}
+
+{{- if $caption -}}<figure class="post-figure">{{- end -}}
+<img
+  {{- range $k, $v := $attrs -}}
+    {{- if $v }}{{ printf " %s=%q" $k (print $v) | safeHTMLAttr }}{{ end -}}
+  {{- end -}}>
+{{- if $caption -}}
+<figcaption>{{ $caption | safeHTML }}</figcaption>
+</figure>
+{{- end -}}
+{{- /**/ -}}

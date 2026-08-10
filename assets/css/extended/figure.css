@@ -1,0 +1,20 @@
+/* 이미지 캡션 — layouts/_markup/render-image.html 에서 사용 */
+
+.post-figure {
+    margin: 28px 0;
+    text-align: center;
+}
+
+.post-figure img {
+    margin: 0 auto;
+}
+
+/* 책 03장: 캡션은 글에서 가장 읽힐 확률이 높은 한 줄이다.
+   그림 아래 첫 줄이라 눈이 반드시 지나간다. 작게 넣되 읽히게 둔다. */
+.post-figure figcaption {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--secondary);
+    text-align: center;
+}

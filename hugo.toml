@@ -76,6 +76,15 @@ summaryLength = 40
 #
 # 자세한 것은 CONTRIBUTING.md 참조.
 
+# 글 폴더에 들어 있는 원본 이미지를 그대로 배포하지 않는다.
+# 렌더 훅이 만든 webp만 나간다. 원본은 저장소에만 남아 다시 처리할 때 쓰인다.
+# 이게 없으면 무거운 원본이 발행본에 함께 실려 정적 사이트의 속도 이점을 깎아먹는다.
+[[cascade]]
+  [cascade.build]
+    publishResources = false
+  [cascade._target]
+    path = '/**'
+
 [outputs]
   home = ['HTML', 'RSS', 'JSON']
 
