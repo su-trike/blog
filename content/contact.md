@@ -14,8 +14,7 @@ menus:
 
 ## 이메일
 
-<!-- ⚠️ 배포 전 반드시 실제 주소로 교체 — 애드센스 심사 필수 항목이며 실제로 받을 수 있는 주소여야 함 -->
-**CONTACT_EMAIL_PLACEHOLDER**
+**[contact@onioniworks.com](mailto:contact@onioniworks.com)**
 
 ## 이런 문의를 받습니다
 
