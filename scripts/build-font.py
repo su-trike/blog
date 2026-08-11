@@ -141,17 +141,30 @@ def main() -> int:
         charset_file.unlink(missing_ok=True)
 
     print("\n=== 생성된 파일 ===")
+    failed = False
     for path in sorted(OUT.glob("onioni-serif-*.woff2")):
         font = TTFont(path)
-        family = next(str(r) for r in font["name"].names if r.nameID == 1)
-        has_license = any(r.nameID == 13 for r in font["name"].names)
+        records = font["name"].names
+        family = next(str(r) for r in records if r.nameID == 1)
+        has_license = any(r.nameID == 13 for r in records)
+        # §3이 막는 것은 "사용자에게 보이는 기본 글꼴 이름"이다(1·4·6·16).
+        # 라이선스 설명(13)에 원본이 마루 부리임을 밝히는 것은 위반이 아니라
+        # §4가 허용하는 출처 표기다. 여기를 뭉뚱그려 검사하면 멀쩡한 글꼴이
+        # 위반으로 잡힌다.
+        leftovers = [f"nameID {r.nameID}: {r}" for r in records
+                     if r.nameID in (1, 4, 6, 16) and "MaruBuri" in str(r)]
         font.close()
         print(f"  {path.name:<28} {path.stat().st_size // 1024:>4}KB  "
               f"패밀리명={family!r}  라이선스메타={has_license}")
-        if "MaruBuri" in family:
-            print("  ✗ 예약 글꼴 이름이 남아 있습니다 (OFL §3 위반)")
-            return 1
-    print("  ✓ 예약 글꼴 이름(MaruBuri) 제거 확인")
+        for item in leftovers:
+            print(f"    ✗ 예약 글꼴 이름이 남아 있습니다 — {item}")
+            failed = True
+        if not has_license:
+            print("    ✗ 라이선스 메타데이터(nameID 13)가 비어 있습니다")
+            failed = True
+    if failed:
+        return 1
+    print("  ✓ 사용자에게 보이는 이름에 예약 글꼴 이름(MaruBuri) 없음")
     return 0
 
 
