@@ -1,0 +1,137 @@
+/* 본문 강조 상자
+ *
+ * 마크다운 `> [!WARNING]` 이 layouts/_markup/render-blockquote.html 을 거쳐 여기로 온다.
+ *
+ * 색은 다섯 갈래인데 구조는 하나다. 상자마다 모양이 다르면 독자가 매번 새로 해석해야 한다.
+ * 왼쪽 굵은 선 하나로 갈래를 표시하고, 나머지는 전부 같게 둔다.
+ *
+ * 밝은 화면에서는 옅은 배경, 어두운 화면에서는 같은 색을 훨씬 낮은 투명도로 쓴다.
+ * 어두운 화면에 밝은 배경을 그대로 쓰면 그 부분만 화면에서 튀어나와 눈이 아프다.
+ */
+
+.post-content .callout {
+    --callout-accent: var(--secondary);
+    --callout-bg: rgba(128, 128, 128, 0.06);
+
+    margin: 1.6em 0;
+    padding: 14px 18px;
+    border-inline-start: 4px solid var(--callout-accent);
+    border-radius: 4px;
+    background: var(--callout-bg);
+}
+
+.post-content .callout__head {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 6px;
+    color: var(--callout-accent);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+}
+
+.post-content .callout__icon {
+    flex: none;
+}
+
+/* 상자 안 첫 문단과 마지막 문단의 바깥 여백을 없앤다.
+   안 그러면 상자 위아래에 빈칸이 두 겹으로 생겨 헐거워 보인다. */
+.post-content .callout__body > :first-child {
+    margin-top: 0;
+}
+
+.post-content .callout__body > :last-child {
+    margin-bottom: 0;
+}
+
+.post-content .callout__body {
+    font-size: 0.97em;
+}
+
+/* 상자 안에서는 표를 조금 조인다. 이미 들여쓴 자리라 바깥과 같은 여백을 주면 답답하다. */
+.post-content .callout table {
+    margin: 10px 0;
+}
+
+.post-content .callout ul,
+.post-content .callout ol {
+    margin-bottom: 0;
+}
+
+/* ── 갈래별 색 ─────────────────────────────────────────────
+   요약: 파랑   — 글 첫머리에서 결론을 먼저 준다
+   주의: 주황   — 놓치면 독자가 손해를 본다
+   참고: 초록   — 알아두면 좋지만 몰라도 손해는 아니다
+   할 일: 남보라 — 글을 덮고 나서 할 행동
+   알아두기: 회색 — 부연 설명
+   ───────────────────────────────────────────────────────── */
+
+.post-content .callout--summary {
+    --callout-accent: #1f6feb;
+    --callout-bg: rgba(31, 111, 235, 0.07);
+}
+
+.post-content .callout--warning {
+    --callout-accent: #bc4c00;
+    --callout-bg: rgba(188, 76, 0, 0.07);
+}
+
+.post-content .callout--tip {
+    --callout-accent: #1a7f37;
+    --callout-bg: rgba(26, 127, 55, 0.07);
+}
+
+.post-content .callout--action {
+    --callout-accent: #6639ba;
+    --callout-bg: rgba(102, 57, 186, 0.07);
+}
+
+.post-content .callout--note {
+    --callout-accent: #6e7781;
+    --callout-bg: rgba(110, 119, 129, 0.07);
+}
+
+:root[data-theme="dark"] .post-content .callout--summary {
+    --callout-accent: #6ea8fe;
+    --callout-bg: rgba(110, 168, 254, 0.09);
+}
+
+:root[data-theme="dark"] .post-content .callout--warning {
+    --callout-accent: #f0883e;
+    --callout-bg: rgba(240, 136, 62, 0.09);
+}
+
+:root[data-theme="dark"] .post-content .callout--tip {
+    --callout-accent: #56d364;
+    --callout-bg: rgba(86, 211, 100, 0.09);
+}
+
+:root[data-theme="dark"] .post-content .callout--action {
+    --callout-accent: #a371f7;
+    --callout-bg: rgba(163, 113, 247, 0.09);
+}
+
+:root[data-theme="dark"] .post-content .callout--note {
+    --callout-accent: #9198a1;
+    --callout-bg: rgba(145, 152, 161, 0.09);
+}
+
+/* 원문을 인용할 때 쓰는 평범한 인용구.
+   테마 기본값은 왼쪽 선이 굵어 위 강조 상자와 헷갈리므로 가늘게 줄인다. */
+.post-content .post-quote {
+    margin: 1.6em 0;
+    padding: 2px 0 2px 18px;
+    border-inline-start: 2px solid var(--border);
+    color: var(--secondary);
+    font-style: normal;
+}
+
+.post-content .post-quote > :first-child {
+    margin-top: 0;
+}
+
+.post-content .post-quote > :last-child {
+    margin-bottom: 0;
+}

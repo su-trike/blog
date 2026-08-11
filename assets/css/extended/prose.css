@@ -1,0 +1,134 @@
+/* 본문 요소 — 표와 목록
+ *
+ * 이 블로그 글은 금액·기준선·기한을 표로 자주 보여 준다.
+ * 표가 눌려 보이면 글 전체가 성의 없어 보이므로 여기에 손을 좀 들인다.
+ */
+
+/* ── 표 ─────────────────────────────────────────────────────
+   layouts/_markup/render-table.html 이 .table-wrap 으로 감싼다.
+   ───────────────────────────────────────────────────────── */
+
+.post-content .table-wrap {
+    margin: 1.6em 0;
+    overflow-x: auto;
+    /* 좁은 화면에서 표가 잘렸을 때, 오른쪽 끝을 흐리게 해 더 있다는 것을 알린다.
+       스크롤 막대가 안 보이는 환경에서는 잘린 줄도 모르고 지나간다. */
+    background:
+        linear-gradient(to right, var(--theme) 30%, transparent),
+        linear-gradient(to left, var(--theme) 30%, transparent) 100% 0,
+        linear-gradient(to right, rgba(128, 128, 128, 0.22), transparent 12px),
+        linear-gradient(to left, rgba(128, 128, 128, 0.22), transparent 12px) 100% 0;
+    background-repeat: no-repeat;
+    background-size: 36px 100%, 36px 100%, 14px 100%, 14px 100%;
+    background-attachment: local, local, scroll, scroll;
+}
+
+.post-content .table-wrap > table {
+    display: table;          /* 테마 reset이 block으로 눕혀 둔 것을 되돌린다 */
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.post-content .table-wrap th,
+.post-content .table-wrap td {
+    padding: 10px 14px;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    text-align: start;
+    word-break: keep-all;    /* 한글이 단어 중간에서 끊기지 않게 */
+}
+
+.post-content .table-wrap thead th {
+    border-bottom: 2px solid var(--secondary);
+    background: rgba(128, 128, 128, 0.05);
+    font-size: 0.92em;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--primary);
+}
+
+.post-content .table-wrap tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.post-content .table-wrap tbody tr:hover {
+    background: rgba(128, 128, 128, 0.04);
+}
+
+/* 첫 칸은 대개 항목 이름이라 조금 굵게. 금액 표에서 눈이 여기부터 출발한다. */
+.post-content .table-wrap tbody td:first-child {
+    font-weight: 500;
+}
+
+/* 숫자 칸의 자릿수를 세로로 맞춘다. 금액 비교가 이 블로그의 본업이다. */
+.post-content .table-wrap td {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── 번호 목록 ───────────────────────────────────────────────
+   신청 절차처럼 순서가 있는 안내에 쓴다. 기본 목록은 번호가 작아
+   '순서대로 하라'는 뜻이 잘 안 보인다.
+   ───────────────────────────────────────────────────────── */
+
+.post-content ol {
+    counter-reset: step;
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.post-content ol > li {
+    position: relative;
+    counter-increment: step;
+    margin-bottom: 10px;
+    padding-inline-start: 34px;
+    line-height: 1.75;
+}
+
+.post-content ol > li::before {
+    content: counter(step);
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0.28em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--tertiary);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* 중첩된 번호 목록은 원래 모습으로. 동그라미가 겹치면 지저분하다. */
+.post-content ol ol {
+    counter-reset: none;
+    list-style: lower-alpha;
+    padding-inline-start: 1.4em;
+    margin-top: 8px;
+}
+
+.post-content ol ol > li {
+    counter-increment: none;
+    padding-inline-start: 0;
+}
+
+.post-content ol ol > li::before {
+    content: none;
+}
+
+/* 강조 상자 안에서는 동그라미를 줄인다. 좁은 자리라 원래 크기면 답답하다. */
+.post-content .callout ol > li {
+    padding-inline-start: 28px;
+}
+
+.post-content .callout ol > li::before {
+    width: 19px;
+    height: 19px;
+    font-size: 11px;
+}

@@ -1,0 +1,36 @@
+{{/*
+  표 렌더 훅 — 표를 스크롤 상자로 감싼다.
+
+  테마 기본 CSS가 table 자체에 `display: block; overflow-x: auto`를 준다. 좁은 화면에서
+  표가 넘칠 때 가로로 밀어 보라는 뜻인데, block이 되는 순간 표 레이아웃 계산이 꺼져서
+  칸 너비가 글자 수대로만 잡힌다. 그래서 본문은 넓은데 표만 왼쪽에 쪼그라들어 붙는다.
+
+  감싸는 상자에 스크롤을 맡기고 표는 표로 되돌린다. 좁은 화면 대응은 그대로 살아 있다.
+  금액과 기준선을 표로 자주 보여 주는 블로그라 여기가 눌리면 글이 통째로 싸구려로 보인다.
+*/}}
+<div class="table-wrap">
+  <table>
+    {{- with .THead }}
+    <thead>
+      {{- range . }}
+      <tr>
+        {{- range . }}
+        <th {{- with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    {{- end }}
+    {{- with .TBody }}
+    <tbody>
+      {{- range . }}
+      <tr>
+        {{- range . }}
+        <td {{- with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+    {{- end }}
+  </table>
+</div>

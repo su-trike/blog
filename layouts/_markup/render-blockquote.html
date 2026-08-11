@@ -1,0 +1,60 @@
+{{/*
+  본문 강조 상자 — 인용구 렌더 훅
+
+  마크다운의 GitHub 알림 문법을 우리 상자로 바꾼다.
+
+      > [!WARNING]
+      > 총액이 아니라 건강보험료 항목만 보셔야 합니다.
+
+  이 문법을 쓰는 이유는 두 갈래로 나가는 원고 때문이다. 원고 하나가 자체 블로그와
+  네이버 양쪽으로 나가는데, HTML을 직접 박아 두면 네이버 편집기에서 태그가 글자로 보인다.
+  인용구는 어디서나 인용구로 읽히므로, 최악의 경우에도 글이 깨지지 않는다.
+
+  제목을 바꾸고 싶으면 유형 뒤에 적는다.  > [!TIP] 이건 잘 안 알려진 규정이에요
+
+  유형을 모르면 회색 기본 상자로 나간다. 오타 하나로 문단이 사라지지 않게 하려는 것이다.
+*/}}
+
+{{- if ne .Type "alert" -}}
+  {{/* 평범한 인용구 — 원문 인용에 쓴다 */}}
+  <blockquote class="post-quote">{{ .Text }}</blockquote>
+{{- else -}}
+
+{{- $kind := lower .AlertType -}}
+
+{{/* GitHub 표준 유형도 우리 것으로 받아 준다. 밖에서 글을 가져올 때 깨지지 않는다. */}}
+{{- $alias := dict "important" "action" "caution" "warning" -}}
+{{- with index $alias $kind }}{{ $kind = . }}{{ end -}}
+
+{{- $labels := dict
+  "summary" "요약"
+  "warning" "주의"
+  "tip"     "참고"
+  "action"  "할 일"
+  "note"    "알아두기"
+-}}
+
+{{/* 아이콘은 feather 계열로 통일했다. 테마가 쓰는 것과 획 굵기가 같아야 따로 놀지 않는다. */}}
+{{- $icons := dict
+  "summary" `<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>`
+  "warning" `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>`
+  "tip"     `<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>`
+  "action"  `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`
+  "note"    `<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>`
+-}}
+
+{{- $label := index $labels $kind -}}
+{{- if not $label }}{{ $kind = "note" }}{{ $label = index $labels "note" }}{{ end -}}
+{{- $title := .AlertTitle | default $label -}}
+
+<div class="callout callout--{{ $kind }}" role="note">
+  <p class="callout__head">
+    <svg class="callout__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17"
+         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">{{ index $icons $kind | safeHTML }}</svg>
+    <span>{{ $title }}</span>
+  </p>
+  <div class="callout__body">{{ .Text }}</div>
+</div>
+
+{{- end -}}
