@@ -61,11 +61,11 @@ summaryLength = 40
   adsenseClient = ''
 
   # 검색엔진 소유 확인 메타태그 — 서치콘솔·서치어드바이저 등록 시 채운다.
-  googleSiteVerification = ''
-  naverSiteVerification = ''
+  googleSiteVerification = 'uJBozsRDfqolDY6-5JGb2ehchZU--wzwwKNcypIBfHA'
+  naverSiteVerification = '8c2f801f7c082b2161f0b54568d4398680de5315'
 
   # GA4 측정 ID — 연결 시 'G-XXXXXXXXXX' 형태로 채운다.
-  googleAnalytics = ''
+  googleAnalytics = 'G-T6VEKR6LNP'
 
   [params.homeInfoParams]
     Title = '오니오니웍스'
