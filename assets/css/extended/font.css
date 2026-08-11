@@ -57,9 +57,22 @@ samp {
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 }
 
-/* 글꼴 출처 한 줄 — 푸터 */
+/* 글꼴 출처 한 줄 — 푸터
+ *
+ * PaperMod가 extend_footer를 <footer> 태그 바깥에서 부르기 때문에
+ * .footer의 중앙정렬·최대폭이 상속되지 않는다. 같은 값을 직접 준다. */
 .font-credit {
-    margin-top: 4px;
+    max-width: calc(var(--main-width) + var(--gap) * 2);
+    margin: 0 auto;
+    padding: 0 var(--gap) 2rem;
+    text-align: center;
     font-size: 12px;
+    line-height: 1.7;
     color: var(--secondary);
+}
+
+.font-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
 }
