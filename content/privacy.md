@@ -6,10 +6,6 @@ draft: false
 ShowToc: false
 ShowReadingTime: false
 ShowBreadCrumbs: false
-menus:
-  main:
-    name: "개인정보처리방침"
-    weight: 91
 ---
 
 오니오니웍스(이하 '본 블로그')는 이용자의 개인정보를 소중히 다루며, 아래와 같이 처리 방침을 밝힙니다.

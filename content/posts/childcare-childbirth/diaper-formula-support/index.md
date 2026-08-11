@@ -4,8 +4,10 @@ description: "2026년 7월부터 장애인·다자녀 가구 소득 기준이 �
 date: 2026-08-10
 lastmod: 2026-08-10
 draft: false
-categories: ["현금지원"]
-tags: ["기저귀조제분유지원", "자격조건", "신청방법", "저소득", "다자녀", "영유아"]
+tags: ["기저귀조제분유지원", "현금지원", "자격조건", "신청방법", "저소득", "다자녀", "영유아"]
+# 발행 뒤 주소 구조를 /posts/<카테고리>/ 로 바꿨다. 옛 주소로 들어와도 여기로 넘어온다.
+aliases:
+  - /parenting-benefits/diaper-formula-support/
 summary: "소득 기준이 중위 100%로 넓어졌어요. 월 20만원, 신청은 출생 60일 안에."
 cover:
   image: "diaper-formula-support-2026-thumbnail.png"

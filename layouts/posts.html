@@ -1,0 +1,54 @@
+{{/*
+  전체 글 목록 — content/posts/_index.md 의 layout: "posts" 가 이 파일을 부른다.
+
+  홈과 카테고리 목록은 커버 그림이 먼저 눈에 들어오는 카드 형태다. 여기는 다르다.
+  전체 글을 한자리에 모아 놓는 곳이라, 카드로 깔면 글 열 편만 돼도 한참 스크롤해야
+  아래쪽이 나온다. 그림을 빼고 한 줄씩 세워 훑어보기 좋게 한다.
+
+  연도로 끊어 주는 것은 제도 글이라서다. 2026년 기준 글과 2025년 기준 글이 뒤섞여
+  보이면 어느 것이 최신인지 제목만으로는 알 수 없다.
+*/}}
+{{- define "main" }}
+
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . | markdownify }}</div>
+  {{- end }}
+</header>
+
+{{- $pages := where site.RegularPages "Section" "posts" }}
+{{- $total := len $pages }}
+
+{{- if .Content }}
+<div class="post-content md-content">{{ .Content }}</div>
+{{- end }}
+
+<div class="post-list-count">글 {{ $total }}편</div>
+
+{{- range $pages.GroupByDate "2006" }}
+<section class="post-list-year">
+  <h2 class="post-list-year-head" id="year-{{ .Key }}">{{ .Key }}년</h2>
+  <ul class="post-list">
+    {{- range .Pages }}
+    <li class="post-list-item">
+      <a class="post-list-link" href="{{ .RelPermalink }}">
+        <span class="post-list-date">{{ .Date.Format "01월 02일" }}</span>
+        <span class="post-list-title">{{ .Title }}</span>
+      </a>
+      {{- with .Parent }}
+        {{- if ne .Title "전체 글" }}
+      <a class="post-list-cat" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{- end }}
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- if eq $total 0 }}
+<p class="post-list-empty">아직 발행된 글이 없습니다.</p>
+{{- end }}
+
+{{- end }}{{/* end main */}}

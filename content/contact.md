@@ -6,10 +6,6 @@ draft: false
 ShowToc: false
 ShowReadingTime: false
 ShowBreadCrumbs: false
-menus:
-  main:
-    name: "연락처"
-    weight: 92
 ---
 
 ## 이메일
