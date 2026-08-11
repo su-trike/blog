@@ -1,4 +1,14 @@
-/* 이미지 캡션 — layouts/_markup/render-image.html 에서 사용 */
+/* 이미지 — layouts/_markup/render-image.html 에서 사용 */
+
+/* ⚠️ 이 한 줄이 없으면 이미지가 가로로 눌린다.
+   렌더 훅이 width·height 속성을 박아 화면 덜컹임(CLS)을 막는데,
+   PaperMod의 기본 규칙은 `max-width: 100%`뿐이라 폭만 줄고 높이는 속성값에 고정된다.
+   실제로 1200×630 이미지가 720×630으로 찌그러져 나갔다.
+   height를 auto로 두면 폭에 맞춰 높이가 따라 줄어 원본 비율이 지켜진다. */
+.post-content img,
+.post-figure img {
+    height: auto;
+}
 
 .post-figure {
     margin: 28px 0;

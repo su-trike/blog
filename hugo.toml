@@ -25,6 +25,10 @@ summaryLength = 40
   [markup.goldmark.renderer]
     # 본문 안 HTML 허용 — 광고 단위·요약 박스 삽입에 필요
     unsafe = true
+  [markup.goldmark.extensions.extras.mark]
+    # ==이렇게== 감싼 대목이 <mark>가 되어 형광펜 밑줄로 보인다.
+    # 스타일은 assets/css/extended/highlight.css
+    enable = true
   [markup.highlight]
     noClasses = false
     codeFences = true

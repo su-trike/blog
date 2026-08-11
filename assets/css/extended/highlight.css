@@ -1,0 +1,26 @@
+/* 형광펜 하이라이트 — 본문에서 `==이렇게==` 감싼 대목
+   goldmark의 extras.mark 확장이 <mark>로 바꿔 준다 (hugo.toml 참조) */
+
+:root {
+    /* 종이에 형광펜을 그은 느낌. 글자는 검은색 그대로라 대비가 충분하다. */
+    --hl: rgba(255, 224, 71, 0.9);
+}
+
+:root[data-theme="dark"] {
+    /* 어두운 배경에 밝은 노랑을 그대로 깔면 눈이 부시고 흰 글자가 묻힌다.
+       채도를 낮춰 글자색은 건드리지 않고 강조만 남긴다. */
+    --hl: rgba(255, 214, 0, 0.32);
+}
+
+mark {
+    /* 배경 전체가 아니라 아래쪽만 칠해야 '형광펜으로 그은 밑줄'로 보인다 */
+    background: linear-gradient(transparent 58%, var(--hl) 58%);
+    color: inherit;
+    padding: 0 0.12em;
+    border-radius: 2px;
+}
+
+/* 표 안에서는 줄 간격이 좁아 그라데이션이 글자를 침범한다. 위치를 조금 내린다. */
+.post-content table mark {
+    background: linear-gradient(transparent 64%, var(--hl) 64%);
+}
