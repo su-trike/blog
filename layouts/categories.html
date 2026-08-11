@@ -23,9 +23,14 @@
 {{- $posts := site.GetPage "/posts" }}
 {{- $cats := where $posts.Sections "Kind" "section" }}
 
+{{/* 글이 하나도 없는 카테고리는 카드로 내보내지 않는다.
+     빈 카드는 '준비 중' 팻말과 같아서 미완성 신호로 읽힌다.
+     애드센스 심사에서 '탐색 곤란'으로 걸리는 대표적인 자리다.
+     글이 한 편이라도 들어오면 자동으로 다시 나타난다. */}}
 <div class="cat-grid">
   {{- range (sort $cats "Weight") }}
   {{- $count := len .RegularPagesRecursive }}
+  {{- if gt $count 0 }}
   <article class="cat-card">
     <a class="cat-card-link" href="{{ .RelPermalink }}" aria-label="{{ .Title }} 카테고리로 이동"></a>
     <header class="cat-card-head">
@@ -44,6 +49,7 @@
     </ul>
     {{- end }}
   </article>
+  {{- end }}
   {{- end }}
 </div>
 
