@@ -121,6 +121,25 @@ summaryLength = 40
   [cascade.target]
     path = '/**'
 
+# 함께 보면 좋은 글 — 태그가 겹치는 글을 골라 준다.
+# 관련 글 추천이 동작하려면 태그가 일관돼야 한다. 그래서 태그 사전을 고정해 뒀다
+# (도구 저장소 niches/<니치>/taxonomy.md).
+#
+# threshold 는 '얼마나 닮아야 관련 글로 볼지'다. 80이면 태그가 상당히 겹쳐야 하고,
+# 낮추면 아무 글이나 붙는다. 글이 적을 때는 추천이 비는 편이 엉뚱한 글을 붙이는 것보다 낫다.
+[related]
+  includeNewer = true      # 나중에 쓴 글도 후보에 넣는다
+  threshold = 80
+  toLower = true
+
+  [[related.indices]]
+    name = 'tags'
+    weight = 100
+
+  [[related.indices]]
+    name = 'date'
+    weight = 10
+
 [outputs]
   home = ['HTML', 'RSS', 'JSON']
 

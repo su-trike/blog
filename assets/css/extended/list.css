@@ -224,3 +224,63 @@
     text-decoration: underline;
     text-underline-offset: 0.2rem;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   함께 보면 좋은 글 (본문 뒤, 면책 앞)
+   ───────────────────────────────────────────────────────────── */
+
+.post-related {
+    margin: 2.5em 0 1.5em;
+    padding: 18px 20px;
+    background: rgba(128, 128, 128, 0.05);
+    border-radius: var(--radius);
+}
+
+.post-related h2 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--secondary);
+    letter-spacing: 0.01em;
+}
+
+.post-related ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.post-related li {
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-related li:last-child {
+    border-bottom: none;
+}
+
+.post-related a {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--primary);
+}
+
+.post-related a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+}
+
+/* 요약은 제목 아래 한 줄. 좁은 화면에서는 숨긴다 — 제목만으로 판단이 선다. */
+.post-related__sum {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--secondary);
+}
+
+@media screen and (max-width: 600px) {
+    .post-related__sum {
+        display: none;
+    }
+}

@@ -14,6 +14,28 @@
   글이 content/posts/<카테고리>/<슬러그>/ 에 있어서 .Section은 전부 "posts"로 같다.
 */}}
 
+{{/* ── 함께 보면 좋은 글 ─────────────────────────────────────────
+     태그가 겹치는 글을 Hugo가 골라 준다. 글이 늘수록 크롤러가 돌아다닐 길도
+     함께 늘어난다. 색인 속도·체류 시간·광고 노출이 같이 오른다.
+
+     본문 바로 뒤, 면책 문구 앞에 둔다. 다 읽은 독자의 시선이 갈 데를 만들어 주는 자리다.
+     ───────────────────────────────────────────────────────────── */}}
+{{- if eq .Section "posts" }}
+{{- with .Site.RegularPages.Related . | first 3 }}
+<nav class="post-related" aria-labelledby="related-head">
+  <h2 id="related-head">함께 보면 좋은 글</h2>
+  <ul>
+    {{- range . }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{- with .Params.summary }}<span class="post-related__sum">{{ . }}</span>{{ end }}
+    </li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end }}
+{{- end }}
+
 {{- if eq .Section "posts" }}
 {{- $ref := .Lastmod | default .Date }}
 {{- $category := path.Base .Parent.RelPermalink }}
