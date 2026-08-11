@@ -64,11 +64,10 @@ samp {
 .font-credit {
     max-width: calc(var(--main-width) + var(--gap) * 2);
     margin: 0 auto;
-    /* 축약형 padding에 var()를 섞으면 압축기가 `var(--gap)2rem`처럼 공백을 지운다.
-       파싱은 되지만 굳이 걸고 넘어질 이유가 없어 방향별로 나눠 쓴다. */
-    padding-left: var(--gap);
-    padding-right: var(--gap);
-    padding-bottom: 2rem;
+    /* 압축된 CSS에서는 `padding:0 var(--gap)2rem` 처럼 공백이 빠져 보인다.
+       고장이 아니다 — 함수의 닫는 괄호가 토큰 경계라 공백 없이도 갈린다.
+       방향별로 나눠 써도 압축기가 다시 축약형으로 합치므로 그냥 둔다. */
+    padding: 0 var(--gap) 2rem;
     text-align: center;
     font-size: 12px;
     line-height: 1.7;
