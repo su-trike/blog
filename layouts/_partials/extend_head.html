@@ -7,6 +7,20 @@
   값이 비어 있으면 아무것도 출력하지 않으므로, 미설정 상태로 배포해도 안전하다.
 */}}
 
+{{/*
+  ⚠️ GA 코드 이중 삽입 방어 — 빌드를 일부러 실패시킨다.
+
+  Hugo에는 GA 설정 자리가 둘 있다. 최상위 `googleAnalytics`(테마가 내장 템플릿으로 읽는 자리)와
+  우리가 쓰는 `params.googleAnalytics`다. 양쪽에 값을 넣으면 gtag가 **두 번** 박히고
+  방문 수가 두 배로 잡힌다. 실측으로 확인했다.
+
+  GA 안내 문서 대부분이 "hugo.toml에 googleAnalytics를 넣으라"고 하므로 밟기 쉬운 함정이다.
+  경고로 두면 지나칠 수 있어 빌드를 세운다. 우리 자리는 [params] 아래다.
+*/}}
+{{- with site.Config.Services.GoogleAnalytics.ID }}
+  {{- errorf "GA 설정이 두 자리에 있습니다. hugo.toml 최상위의 googleAnalytics = '%s' 줄을 지우십시오. 우리가 쓰는 자리는 [params] 아래의 googleAnalytics 입니다. 양쪽에 두면 gtag가 두 번 박혀 방문 수가 두 배로 잡힙니다." . }}
+{{- end }}
+
 {{- with site.Params.googleSiteVerification }}
 <meta name="google-site-verification" content="{{ . }}">
 {{- end }}
