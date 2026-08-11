@@ -64,7 +64,11 @@ samp {
 .font-credit {
     max-width: calc(var(--main-width) + var(--gap) * 2);
     margin: 0 auto;
-    padding: 0 var(--gap) 2rem;
+    /* 축약형 padding에 var()를 섞으면 압축기가 `var(--gap)2rem`처럼 공백을 지운다.
+       파싱은 되지만 굳이 걸고 넘어질 이유가 없어 방향별로 나눠 쓴다. */
+    padding-left: var(--gap);
+    padding-right: var(--gap);
+    padding-bottom: 2rem;
     text-align: center;
     font-size: 12px;
     line-height: 1.7;
