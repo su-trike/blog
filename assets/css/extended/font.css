@@ -1,15 +1,19 @@
-/* 본문 글꼴 — 마루부리 (네이버 배포)
+/* 본문 글꼴
  *
- * 되돌리려면 이 파일 하나만 지우면 된다. 다른 곳에 글꼴 지정을 흩어 두지 않았다.
+ * 네이버 마루 부리를 웹 전송용으로 변환·서브셋한 것이다.
+ * SIL Open Font License 1.1 제3항이 수정본에 예약 글꼴 이름을 쓰지 못하게 하므로
+ * 이름을 'Onioni Serif'로 바꿨다. 자형은 원본 그대로다.
  *
- * 파일은 static/fonts/ 에 있고, KS X 1001 상용 한글 위주로 서브셋해서
- * 두 굵기 합쳐 396KB다. 서브셋 전 전체 글자판은 868KB였다.
- * 글꼴은 한 번 받으면 브라우저가 캐시하므로 두 번째 페이지부터는 다시 받지 않는다.
+ * 저작권 안내와 라이선스 전문: /fonts/OFL.txt
+ * 출처 표기는 layouts/_partials/extend_footer.html 에 있다.
+ *
+ * 되돌리려면 이 파일 하나만 지우면 된다. 글꼴 지정을 다른 곳에 흩어 두지 않았다.
+ * 파일은 두 굵기 합쳐 393KB (서브셋 전 868KB). 한 번 받으면 브라우저가 캐시한다.
  */
 
 @font-face {
-    font-family: 'MaruBuri';
-    src: url('/fonts/MaruBuri-Regular.woff2') format('woff2');
+    font-family: 'Onioni Serif';
+    src: url('/fonts/onioni-serif-regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     /* swap — 글꼴을 받는 동안 시스템 글꼴로 먼저 보여 준다.
@@ -18,15 +22,15 @@
 }
 
 @font-face {
-    font-family: 'MaruBuri';
-    src: url('/fonts/MaruBuri-Bold.woff2') format('woff2');
+    font-family: 'Onioni Serif';
+    src: url('/fonts/onioni-serif-bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 :root {
-    --font-body: 'MaruBuri', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    --font-body: 'Onioni Serif', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
                  'Noto Sans KR', 'Segoe UI', sans-serif;
 }
 
@@ -38,7 +42,7 @@ body,
     font-family: var(--font-body);
 }
 
-/* 마루부리는 획이 가늘어 시스템 글꼴보다 작아 보인다. 본문만 조금 키우고 행간을 넓힌다. */
+/* 획이 가늘어 시스템 글꼴보다 작아 보인다. 본문만 조금 키우고 행간을 넓힌다. */
 .post-content {
     font-size: 1.05rem;
     line-height: 1.85;
@@ -51,4 +55,11 @@ pre,
 kbd,
 samp {
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* 글꼴 출처 한 줄 — 푸터 */
+.font-credit {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--secondary);
 }
