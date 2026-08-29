@@ -52,7 +52,7 @@ summaryLength = 40
   ShowPostNavLinks = true
   ShowCodeCopyButtons = true
   ShowToc = true
-  TocOpen = false
+  TocOpen = true
   ShowRssButtonInSectionTermList = true
   comments = false
 
