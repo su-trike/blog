@@ -42,6 +42,79 @@
     letter-spacing: 0.02em;
 }
 
+/* 월 아코디언 — layouts/posts.html 의 <details>.
+   자바스크립트를 쓰지 않는다. 브라우저가 여닫는다. */
+.post-list-month {
+    border-bottom: 1px solid var(--border);
+}
+
+.post-list-month:last-of-type {
+    border-bottom: none;
+}
+
+.post-list-month-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 2px;
+    cursor: pointer;
+    list-style: none;          /* 기본 삼각형을 지운다 */
+    user-select: none;
+}
+
+/* 사파리는 위 list-style 로 안 지워진다 */
+.post-list-month-head::-webkit-details-marker {
+    display: none;
+}
+
+/* 우리가 그린 삼각형. 펴면 아래를 향한다 */
+.post-list-month-head::before {
+    content: "";
+    flex: none;
+    width: 0;
+    height: 0;
+    border-left: 5px solid var(--secondary);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transition: transform 0.15s ease;
+}
+
+.post-list-month[open] > .post-list-month-head::before {
+    transform: rotate(90deg);
+}
+
+.post-list-month-head:hover .post-list-month-name {
+    color: var(--primary);
+}
+
+.post-list-month-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.post-list-month-count {
+    font-size: 13px;
+    color: var(--secondary);
+    opacity: 0.7;
+}
+
+.post-list-month > .post-list {
+    padding-bottom: 6px;
+}
+
+/* 접힌 달에서 펼 때 목록만 살짝 내려온다 */
+@media (prefers-reduced-motion: no-preference) {
+    .post-list-month[open] > .post-list {
+        animation: post-list-open 0.18s ease;
+    }
+}
+
+@keyframes post-list-open {
+    from { opacity: 0; transform: translateY(-3px); }
+    to   { opacity: 1; transform: none; }
+}
+
 .post-list {
     margin: 0;
     padding: 0;
