@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 52" width="252" height="52" role="img" aria-label="오니오니웍스">
+  <title>OniOniWorks</title>
+  <!-- ⚠️ 글자가 아직 도형으로 굳지 않았다. 이 파일을 인쇄물이나 남의 화면에 쓰면
+       글꼴이 없는 기기에서 다르게 보인다. 웹에서는 이 파일 대신
+       심볼(logo-mark.svg) + HTML 글자를 쓴다 — 사이트 머리가 그 방식이다. -->
+  <g transform="translate(0 4)">
+    <path d="M13 0h38a13 13 0 0113 13v38a13 13 0 01-13 13H13A13 13 0 010 51V13A13 13 0 0113 0z M12.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z M32.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z" transform="scale(0.6875)" fill="#1f3a5f" fill-rule="evenodd"/>
+  </g>
+  <text x="56" y="33" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="21" font-weight="500" fill="#1f3a5f" letter-spacing="-0.3">OniOniWorks</text>
+</svg>

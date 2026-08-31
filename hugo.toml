@@ -67,6 +67,15 @@ summaryLength = 40
   # GA4 측정 ID — 연결 시 'G-XXXXXXXXXX' 형태로 채운다.
   googleAnalytics = 'G-T6VEKR6LNP'
 
+  # 사이트 머리의 로고 — 심볼은 여기 SVG, 글자는 테마가 label.text 로 낸다.
+  # **글자를 그림으로 만들지 않는다.** 그래야 사이트 글꼴을 따라가고,
+  # 검색·복사·화면 읽기가 되고, 화면 폭에 맞춰 접힌다.
+  # fill 이 currentColor 라 어두운 화면에서는 색이 뒤집혀 그대로 보인다.
+  [params.label]
+    text = "OniOniWorks"
+    iconHeight = 26
+    iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true" style="vertical-align:-5px;margin-right:7px"><path d="M13 0h38a13 13 0 0113 13v38a13 13 0 01-13 13H13A13 13 0 010 51V13A13 13 0 0113 0z M12.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z M32.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z" fill="currentColor" fill-rule="evenodd"/></svg>'
+
   [params.homeInfoParams]
     Title = '오니오니웍스'
     Content = '제도와 도구를 직접 확인하고, 출처와 기준일을 밝혀 정리합니다.'

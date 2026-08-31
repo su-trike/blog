@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="오니오니웍스">
+  <title>OniOniWorks</title>
+  <!-- 원 둘을 뚫었다(evenodd). 배경이 비쳐 밝은 곳·어두운 곳 양쪽에서 보인다.
+       색을 currentColor 로 두면 놓인 글의 색을 따라간다. -->
+  <path d="M13 0h38a13 13 0 0113 13v38a13 13 0 01-13 13H13A13 13 0 010 51V13A13 13 0 0113 0z M12.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z M32.5 32a9.5 9.5 0 1019 0 9.5 9.5 0 10-19 0z" fill="currentColor" fill-rule="evenodd"/>
+</svg>
