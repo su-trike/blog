@@ -1,8 +1,29 @@
 {{/*
-  푸터 확장 — 글꼴 출처 표기
+  푸터 확장 — 약관 링크 · 저작권 · 글꼴 출처
 
-  네이버가 안내하는 권장 사항이다. 라이선스 전문은 /fonts/OFL.txt 로 함께 배포하지만,
-  전문은 읽지 않고 지나치는 사람이 대부분이라 눈에 보이는 자리에도 한 줄 남긴다.
+  약관과 개인정보처리방침을 여기에 두는 이유: 상단 메뉴는 읽을거리를 찾는 곳이다.
+  법적 문서를 위에 두면 메뉴가 길어지고, 정작 글로 가는 길이 좁아진다.
+  아래에 두어도 찾는 사람은 아래에서 찾는다 — 그것이 관례다.
+
+  🔴 PaperMod가 extend_footer를 <footer> 태그 바깥에서 부른다.
+  .footer의 중앙정렬·최대폭이 상속되지 않으므로 CSS에서 같은 값을 직접 준다
+  (assets/css/extended/footer.css).
+*/}}
+<nav class="site-legal" aria-label="약관과 방침">
+  <a href="{{ "privacy/" | relURL }}">개인정보처리방침</a>
+  <span class="site-legal__sep" aria-hidden="true">·</span>
+  <a href="{{ "terms/" | relURL }}">이용약관</a>
+</nav>
+
+{{/* 연도는 빌드 시점에서 가져온다. 해가 바뀌어도 손대지 않는다. */}}
+<div class="site-copyright">
+  © {{ now.Year }} OniOniWorks. 무단 전재·재배포를 금합니다.
+</div>
+
+{{/*
+  글꼴 출처 표기 — 네이버가 안내하는 권장 사항이다.
+  라이선스 전문은 /fonts/OFL.txt 로 함께 배포하지만, 전문은 읽지 않고
+  지나치는 사람이 대부분이라 눈에 보이는 곳에도 한 줄 남긴다.
 */}}
 <div class="font-credit">
   이 페이지에는 네이버에서 제공한 <a href="https://hangeul.naver.com/font" target="_blank" rel="noopener noreferrer">마루 부리</a> 글꼴이 적용되어 있습니다.
