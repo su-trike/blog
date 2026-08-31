@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>OniOniWorks</title>
+  <!-- 사파리 핀 탭용 마스크. **단색 실루엣이라 배경 사각형을 넣지 않는다** —
+       넣으면 사각형이 통째로 칠해져 원 두 개가 사라진다. -->
+  <circle cx="22" cy="32" r="9.5"/>
+  <circle cx="42" cy="32" r="9.5"/>
+</svg>

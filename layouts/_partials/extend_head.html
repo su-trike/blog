@@ -21,6 +21,12 @@
   {{- errorf "GA 설정이 두 자리에 있습니다. hugo.toml 최상위의 googleAnalytics = '%s' 줄을 지우십시오. 우리가 쓰는 자리는 [params] 아래의 googleAnalytics 입니다. 양쪽에 두면 gtag가 두 번 박혀 방문 수가 두 배로 잡힙니다." . }}
 {{- end }}
 
+{{/*
+  SVG 파비콘 — 요즘 브라우저는 이것을 먼저 쓴다. 한 벌로 모든 크기에서 선명하다.
+  테마 head.html 이 ico·png·apple-touch-icon 을 내고 svg 는 내지 않아 여기서 더한다.
+*/}}
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | absURL }}">
+
 {{- with site.Params.googleSiteVerification }}
 <meta name="google-site-verification" content="{{ . }}">
 {{- end }}

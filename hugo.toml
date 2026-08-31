@@ -73,7 +73,15 @@ summaryLength = 40
 
   [params.assets]
     disableHLJS = true
-    # favicon은 이미지 파일을 static/에 넣은 뒤 지정한다. 없는 경로를 적으면 404가 난다.
+    # 파비콘 — 오니오니의 두 O 를 원 두 개로 그린 것이다.
+    # **테마는 설정이 없어도 이 경로들을 기본값으로 참조한다.** 파일이 없던 동안
+    # /favicon.ico 등이 계속 404 였다. 이제 static/ 에 실물이 있고 경로를 명시한다.
+    # 원본은 static/favicon.svg — 크기를 바꿀 때 그것에서 다시 뽑는다.
+    favicon = "/favicon.ico"
+    favicon16x16 = "/favicon-16x16.png"
+    favicon32x32 = "/favicon-32x32.png"
+    apple_touch_icon = "/apple-touch-icon.png"
+    safari_pinned_tab = "/safari-pinned-tab.svg"
 
 # 상단 메뉴 — 다섯 칸으로 고정한다.
 #
