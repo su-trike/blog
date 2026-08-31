@@ -6,7 +6,7 @@ weight: 60
 # 🔴 글이 0편인 동안 목록·페이지·사이트맵에서 뺀다.
 #    빈 페이지는 애드센스 거절 사유 4번(탐색 곤란)에 그대로 걸린다.
 #    **첫 글이 들어오면 이 세 줄을 지운다.**
-_build:
+build:
   list: never
   render: never
   publishResources: false
