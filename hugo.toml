@@ -112,6 +112,35 @@ summaryLength = 40
     weight = 60
     pre = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>'
 
+# 태그 목록 페이지(/tags/ 와 /tags/<태그>/)는 검색에 올리지 않는다.
+#
+# 글 25편에 태그 46개인데 그중 22개는 글이 한 편뿐이다. 글 한 편짜리 태그 페이지는
+# 그 글의 제목과 요약만 있어 원글과 겹친다. 구글도 같은 판정을 내려
+# 서치 콘솔에 '발견됨 - 현재 색인이 생성되지 않음' 경고 18개가 쌓였다.
+#
+# 경고를 그냥 두면 나중에 진짜 문제 — 본문 글이 색인되지 않는 일 — 가 그 안에 묻힌다.
+# 그래서 우리 설정을 구글의 판정과 일치시킨다.
+#
+# 태그는 독자가 사이트 안에서 관련 글을 찾는 도구로 남는다. 검색 노출은 본문 글이 맡는다.
+# ⚠️ 테마가 robotsNoIndex 를 'noindex, nofollow' 로 낸다 — follow 만 남길 수는 없다.
+# 태그 페이지에서만 닿는 글은 없으므로(카테고리 목록·사이트맵·관련 글이 모두 닿는다) 그대로 둔다.
+# ⚠️ kind 는 문자열 하나만 받는다 — 배열을 넣으면 빌드가 죽는다. 그래서 블록 둘로 나눈다.
+[[cascade]]            # /tags/ — 태그 목록
+  [cascade.params]
+    robotsNoIndex = true
+  [cascade.sitemap]
+    disable = true
+  [cascade.target]
+    kind = 'taxonomy'
+
+[[cascade]]            # /tags/<태그>/ — 태그별 글 목록
+  [cascade.params]
+    robotsNoIndex = true
+  [cascade.sitemap]
+    disable = true
+  [cascade.target]
+    kind = 'term'
+
 # 글 폴더에 들어 있는 원본 이미지를 그대로 배포하지 않는다.
 # 렌더 훅이 만든 webp만 나간다. 원본은 저장소에만 남아 다시 처리할 때 쓰인다.
 # 이게 없으면 무거운 원본이 발행본에 함께 실려 정적 사이트의 속도 이점을 깎아먹는다.
