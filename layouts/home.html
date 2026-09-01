@@ -1,0 +1,111 @@
+{{/*
+  홈 — **목록 템플릿을 그대로 쓰지 않고 따로 그린다.**
+
+  테마 기본값은 큰 썸네일이 붙은 글을 시간순으로 쭉 내려놓는다. 그러면 화면이
+  아무 결정도 하지 않은 상태가 된다 — 무엇이 중요한지, 무슨 주제를 다루는지
+  화면이 말해 주지 않는다. 실측으로 첫 화면에 글이 반 개만 들어왔다.
+
+  그래서 셋을 세운다.
+    1. **대표 글 하나를 크게** — 고른 흔적이 보이게. 지금은 가장 최근 글이다
+    2. **주제 입구** — 재테크를 찾아온 사람이 육아 글을 스크롤하지 않게
+    3. **나머지는 촘촘하게** — 훑어볼 수 있게 가로로 눕힌다
+
+  🔴 **1·2는 첫 장에만 낸다.** 2쪽부터는 목록만 이어진다.
+  카테고리·태그 목록 페이지는 건드리지 않는다 — 그쪽은 테마의 list.html 이 그린다.
+*/}}
+{{- define "main" }}
+
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+{{- $paginator := .Paginate $pages }}
+{{- $첫장 := eq $paginator.PageNumber 1 }}
+
+{{- if and site.Params.homeInfoParams $첫장 }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+{{- if $첫장 }}
+{{- with index $paginator.Pages 0 }}
+{{/* ── 대표 글. 규칙은 「가장 최근」이다 — 사장님이 지정하는 방식으로 바꿀 수 있다 */}}
+<article class="home-lead">
+  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  <header class="home-lead-head">
+    <h2>{{ .Title }}</h2>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="home-lead-summary">
+    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+  </div>
+  {{- end }}
+  {{- if not (.Param "hideMeta") }}
+  <footer class="entry-footer">{{- partial "post_meta.html" . -}}</footer>
+  {{- end }}
+  <a class="entry-link" aria-label="{{ .Title | plainify }} 글로 이동" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+
+{{/* ── 주제 입구. 글이 0편인 칸은 내지 않는다 (빈 칸은 '준비 중' 팻말과 같다) */}}
+{{- $posts := site.GetPage "/posts" }}
+{{- $cats := where $posts.Sections "Kind" "section" }}
+<nav class="home-topics" aria-label="주제">
+  {{- range (sort $cats "Weight") }}
+  {{- $count := len .RegularPagesRecursive }}
+  {{- if gt $count 0 }}
+  <a class="home-topic" href="{{ .RelPermalink }}">
+    <span class="home-topic-name">{{ .Title }}</span>
+    <span class="home-topic-count">{{ $count }}</span>
+  </a>
+  {{- end }}
+  {{- end }}
+  <a class="home-topic home-topic-all" href="{{ "posts/" | relURL }}">
+    <span class="home-topic-name">전체 보기</span>
+  </a>
+</nav>
+{{- end }}
+
+<h2 class="home-section">{{ if $첫장 }}새로 올린 글{{ else }}글 목록{{ end }}</h2>
+
+{{- range $i, $p := $paginator.Pages }}
+{{/* 대표 글로 이미 낸 것은 여기서 뺀다 */}}
+{{- if not (and $첫장 (eq $i 0)) }}
+{{- with $p }}
+<article class="post-entry home-row">
+  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  <div class="home-row-thumb">
+    {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  </div>
+  <div class="home-row-body">
+    <header class="entry-header"><h3>{{ .Title }}</h3></header>
+    {{- if (ne (.Param "hideSummary") true) }}
+    <div class="entry-content"><p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p></div>
+    {{- end }}
+    {{/* 🔴 목록에서는 **날짜만** 낸다. `post_meta` 는 날짜·읽는 시간·글쓴이를 이어 내는데,
+         좁은 화면에서 「오니오니웍스」가 두 줄로 끊겨 지저분해진다. 글쓴이는 모든 글이 같고
+         읽는 시간은 본문에서 보면 된다 — 훑어볼 때 필요한 것은 언제 쓴 글인지다. */}}
+    {{- if not (.Param "hideMeta") }}
+    <footer class="entry-footer">
+      <span title="{{ .Date }}">{{ .Date | time.Format (default ":date_long" site.Params.DateFormat) }}</span>
+    </footer>
+    {{- end }}
+  </div>
+  <a class="entry-link" aria-label="{{ .Title | plainify }} 글로 이동" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;{{ i18n "prev_page" }}</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">{{ i18n "next_page" }}&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}{{- /* end main */ -}}

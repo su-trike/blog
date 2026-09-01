@@ -1,0 +1,192 @@
+/* 홈 — 대표 글 · 주제 입구 · 촘촘한 목록 (layouts/home.html)
+ *
+ * 테마 기본 목록은 큰 썸네일이 붙은 글을 시간순으로 쭉 내려놓는다.
+ * 실측으로 첫 화면(1280×900)에 글이 반 개만 들어왔다 —
+ * 소개와 여백이 476px, 카드 하나가 517px 이고 그중 68%가 썸네일이었다.
+ * 여기서 그 셋을 다시 짠다. */
+
+/* ── 소개 한 줄 ──────────────────────────────────────── */
+
+/* 🔴 **여기가 첫 화면의 절반을 쓰고 있었다.** 테마가 `min-height: 320px` 로
+   화면 한가운데 띄우는 구성인데, 그것은 글이 적은 블로그의 표지에 맞는 설정이다.
+   글 35편이 쌓인 지금은 「무슨 글이 있나」가 먼저 보여야 한다.
+   실측: 소개 320px + 아래 여백 48px = 368px 을 한 줄짜리 문장이 쓰고 있었다. */
+.home-info.first-entry {
+    min-height: auto;
+    margin: var(--gap) 0 calc(var(--gap) * 1.3);
+}
+
+.home-info .entry-header h1 {
+    margin-bottom: 4px;
+}
+
+/* ── 대표 글 ─────────────────────────────────────────── */
+
+.home-lead {
+    position: relative;
+    margin-bottom: calc(var(--gap) * 1.6);
+    padding: var(--gap);
+    background: var(--entry);
+    /* 밝은 화면에서는 카드와 페이지 배경이 둘 다 흰색이라 테두리가 없으면 사라져 보인다 */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform 0.1s, border-color 0.1s;
+}
+
+.home-lead:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary);
+}
+
+.home-lead .entry-cover {
+    margin: 0 0 14px;
+}
+
+.home-lead-head h2 {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.4;
+    color: var(--primary);
+}
+
+.home-lead-summary {
+    margin-top: 8px;
+    color: var(--secondary);
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.home-lead-summary p {
+    margin: 0;
+}
+
+.home-lead .entry-footer {
+    margin-top: 10px;
+}
+
+/* ── 주제 입구 ───────────────────────────────────────── */
+
+/* 카드가 아니라 알약 모양으로 둔다. /categories/ 에 이미 큰 카드가 있으므로
+   여기서 또 크게 그리면 화면을 두 번 잡아먹는다. 여기 몫은 '입구'까지다. */
+.home-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: calc(var(--gap) * 1.8);
+}
+
+.home-topic {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--entry);
+    font-size: 14px;
+    color: var(--primary);
+    transition: border-color 0.1s, background 0.1s;
+}
+
+.home-topic:hover {
+    border-color: var(--secondary);
+    background: var(--code-bg);
+}
+
+.home-topic-count {
+    font-size: 12px;
+    color: var(--secondary);
+}
+
+.home-topic-all {
+    color: var(--secondary);
+}
+
+/* ── 구분 제목 ───────────────────────────────────────── */
+
+.home-section {
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--secondary);
+}
+
+/* ── 촘촘한 목록 ─────────────────────────────────────── */
+
+/* 썸네일을 왼쪽에 눕혀 카드 높이를 517px → 110px 안팎으로 줄인다.
+   훑어보려면 한 화면에 여러 개가 들어와야 한다. */
+.post-entry.home-row {
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.home-row-thumb .entry-cover {
+    margin: 0;
+    font-size: 13px;
+}
+
+.home-row-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) - 2px);
+}
+
+.home-row-body .entry-header {
+    margin: 0;
+}
+
+.home-row-body h3 {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--primary);
+}
+
+.home-row-body .entry-content {
+    margin: 5px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-line-clamp: 2;
+}
+
+.home-row-body .entry-footer {
+    margin-top: 7px;
+    font-size: 13px;
+}
+
+/* ── 좁은 화면 ───────────────────────────────────────── */
+
+@media screen and (max-width: 560px) {
+    .home-lead-head h2 {
+        font-size: 21px;
+    }
+
+    /* 썸네일을 더 줄인다. 눕힌 배치는 유지한다 —
+       세로로 세우면 다시 카드 하나가 화면을 채운다. */
+    .post-entry.home-row {
+        grid-template-columns: 104px 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .home-row-body h3 {
+        font-size: 15px;
+    }
+
+    /* 좁은 화면에서 요약까지 넣으면 제목이 밀린다. 제목과 날짜만 남긴다. */
+    .home-row-body .entry-content {
+        display: none;
+    }
+
+    /* 날짜가 낱말 중간에서 끊기지 않게 */
+    .home-row-body .entry-footer {
+        white-space: nowrap;
+    }
+}
