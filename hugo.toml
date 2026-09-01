@@ -68,9 +68,10 @@ summaryLength = 40
   ShowRssButtonInSectionTermList = true
   comments = false
 
-  # 애드센스 게시자 ID — 승인 후 'ca-pub-XXXXXXXXXXXXXXXX' 형태로 채운다.
-  # 책 04장: 하드코딩 금지, 반드시 이 설정값을 템플릿에서 참조한다.
-  adsenseClient = ''
+  # 애드센스 게시자 ID. **하드코딩 금지** — 템플릿은 이 값만 참조한다
+  # (layouts/_partials/extend_head.html 한곳).
+  # ⚠️ `static/ads.txt` 에는 `ca-` 를 뗀 `pub-8439726778223927` 가 들어간다. 접두사가 다르다.
+  adsenseClient = 'ca-pub-8439726778223927'
 
   # 검색엔진 소유 확인 메타태그 — 서치콘솔·서치어드바이저 등록 시 채운다.
   googleSiteVerification = 'uJBozsRDfqolDY6-5JGb2ehchZU--wzwwKNcypIBfHA'
