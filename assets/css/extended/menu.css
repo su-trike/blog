@@ -1,0 +1,23 @@
+/* 상단 메뉴 — 좁은 화면에서 칸을 줄인다.
+ *
+ * 실측(375px): 기본 글자로는 다섯 칸이 한계다. 여섯 칸이면 검색 아이콘이 잘리고,
+ * 일곱 칸이면 마지막 글자까지 잘린다. PaperMod 는 넘치면 가로로 밀리게 두지만,
+ * **첫 화면에 안 보이는 메뉴는 없는 것과 같다.**
+ *
+ * 그래서 좁은 화면에서는 네 칸만 남긴다 — About · Posts · Contact · 검색.
+ * 접히는 셋은 다른 길로 닿는다:
+ *   Categories → /posts/ 목록이 카테고리별 링크를 낸다
+ *   Privacy · Terms → 푸터에 항상 있다
+ *
+ * 🔴 이 경계(560px)는 footer.css 의 561px 과 한 몸이다. **한쪽만 고치면 구멍이 난다** —
+ *    어긋난 폭에서는 상단에도 푸터에도 없어져 방침·약관에 닿을 길이 사라진다.
+ *
+ * ⚠️ 테마가 <li> 에 클래스를 붙이지 않아 :has() 로 고른다.
+ *    주소가 바뀌면 여기도 함께 고쳐야 한다. */
+@media screen and (max-width: 560px) {
+    #menu li:has(a[href$="/categories/"]),
+    #menu li:has(a[href$="/privacy/"]),
+    #menu li:has(a[href$="/terms/"]) {
+        display: none;
+    }
+}

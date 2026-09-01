@@ -51,3 +51,9 @@ ShowBreadCrumbs: false
 앞으로 내놓는 것에도 같은 기준을 적용합니다. 직접 확인하고, 출처를 밝히고, 모르는 것은 모른다고 적습니다.
 
 문의와 정정 요청은 [연락처](/contact/) 페이지의 이메일로 받습니다.
+
+## 무엇으로 만들었나
+
+이 블로그는 정적 사이트 생성기 [Hugo](https://gohugo.io/)와 [PaperMod](https://github.com/adityatelange/hugo-PaperMod/) 테마로 만들었습니다. 두 프로젝트를 만들고 이어 온 분들께 감사드립니다.
+
+글자는 네이버가 공개한 [마루 부리](https://hangeul.naver.com/font) 글꼴을 씁니다.

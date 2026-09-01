@@ -1,24 +1,28 @@
 {{/*
-  푸터 확장 — 약관 링크 · 저작권 · 글꼴 출처
+  푸터 — **테마 것을 끄고(hugo.toml 의 hideFooter) 여기서 직접 그린다.**
 
-  약관과 개인정보처리방침을 여기에 두는 이유: 상단 메뉴는 읽을거리를 찾는 곳이다.
-  법적 문서를 위에 두면 메뉴가 길어지고, 정작 글로 가는 길이 좁아진다.
-  아래에 두어도 찾는 사람은 아래에서 찾는다 — 그것이 관례다.
+  테마 푸터는 「Powered by Hugo & PaperMod」 를 조건 없이 내보낸다. 그것만 빼려면
+  158줄짜리 템플릿을 통째로 복사해야 하고, 그러면 테마가 바뀔 때 조용히 낡는다.
+  스위치 하나로 끄고 필요한 것만 그리는 편이 오래 간다.
 
-  🔴 PaperMod가 extend_footer를 <footer> 태그 바깥에서 부른다.
-  .footer의 중앙정렬·최대폭이 상속되지 않으므로 CSS에서 같은 값을 직접 준다
-  (assets/css/extended/footer.css).
+  PaperMod 는 MIT 라 크레딧 표기 의무가 없다. 대신 테마가 권하는 대로
+  **소개 페이지 아래에 만든 도구를 밝혀 두었다** (content/about.md).
+
+  약관·방침 링크를 여기 두는 이유: **좁은 화면에서는 상단 메뉴에서 접힌다.**
+  접힌 것이 어디에도 없으면 못 찾으므로 아래에 항상 둔다.
 */}}
+<footer class="footer">
+  <span>
+    &copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">{{ site.Title }}</a>
+    · 무단 전재·재배포를 금합니다.
+  </span>
+</footer>
+
 <nav class="site-legal" aria-label="약관과 방침">
   <a href="{{ "privacy/" | relURL }}">개인정보처리방침</a>
   <span class="site-legal__sep" aria-hidden="true">·</span>
   <a href="{{ "terms/" | relURL }}">이용약관</a>
 </nav>
-
-{{/* 연도는 빌드 시점에서 가져온다. 해가 바뀌어도 손대지 않는다. */}}
-<div class="site-copyright">
-  © {{ now.Year }} OniOniWorks. 무단 전재·재배포를 금합니다.
-</div>
 
 {{/*
   글꼴 출처 표기 — 네이버가 안내하는 권장 사항이다.

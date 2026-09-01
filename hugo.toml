@@ -42,6 +42,16 @@ summaryLength = 40
 [params]
   env = 'production'
 
+  # 🔴 테마 푸터를 끄고 `extend_footer.html` 에서 직접 그린다.
+  # 「Powered by Hugo & PaperMod」 는 테마가 조건 없이 내보내는데, 그것만 빼려면
+  # 158줄짜리 푸터 템플릿을 통째로 복사해야 하고 그러면 테마가 바뀔 때 낡는다.
+  # 이 스위치는 <footer> 만 막는다 — 맨 위로 가기 단추와 스크립트는 테마가 계속 낸다.
+  #
+  # ⚠️ PaperMod 는 MIT 라 크레딧 표기 의무가 없다. 테마 주석도 '권장'이라 적고,
+  # 지울 경우 사이트 어딘가에 저장소 링크를 두라고 안내한다. **소개 페이지에 옮겨 적었다.**
+  hideFooter = true
+
+
   # ⚠️ 확정 필요 — 사장님 확인 후 교체
   description = '알아두면 돈이 되는 제도와 도구를, 출처와 기준일을 밝혀 정리합니다.'
   author = '오니오니웍스'
@@ -121,12 +131,23 @@ summaryLength = 40
     name = 'Contact'
     url = '/contact/'
     weight = 50
+  # 🔴 좁은 화면에서는 이 셋(Categories·Privacy·Terms)이 접힌다
+  # (assets/css/extended/menu.css). 375px 에 일곱 칸은 들어가지 않는다 — 실측했다.
+  # **접히는 대신 푸터에 같은 링크를 둔다.** Categories 는 /posts/ 에서 닿는다.
+  [[menus.main]]
+    name = 'Privacy'
+    url = '/privacy/'
+    weight = 60
+  [[menus.main]]
+    name = 'Terms'
+    url = '/terms/'
+    weight = 70
   [[menus.main]]
     identifier = 'search'
     name = ''          # 비워야 아이콘만 남는다. 읽어 주는 이름은 title이 맡는다
     title = '검색'
     url = '/search/'
-    weight = 60
+    weight = 80
     pre = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>'
 
 # 태그 목록 페이지(/tags/ 와 /tags/<태그>/)는 검색에 올리지 않는다.
